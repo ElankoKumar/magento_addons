@@ -1,0 +1,9 @@
+<odoo>
+	<data>
+	<template id="magento_styles" name="Magento Styles" inherit_id="website.assets_frontend">
+    <xpath expr="link[last()]" position="after">
+        <link rel="stylesheet" type="text/css" href="/magento_odoo/static/src/css/custom.css"/>
+    </xpath>
+</template>
+</data>
+</odoo>

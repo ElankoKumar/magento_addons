@@ -1,0 +1,64 @@
+<odoo>
+	<data>
+        <record id="mg_saleorder_inherit" model="ir.ui.view">
+          <field name="name">Sale order</field>
+          <field name="model">sale.order</field>
+          <field name="inherit_id" ref="sale.view_order_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//form/sheet/group/group[1]/field[@name='partner_shipping_id']" position="after">
+                      <field name="magento_id"/>
+                      <field name="is_magento" />
+              </xpath>
+              <xpath expr="//field[@name='amount_untaxed']" position="before">
+                      <field name="shipping_charge"/>
+              </xpath>
+              <!-- <xpath expr="//field[@name='email']" position="attributes">
+                  <attribute name="required">1</attribute>
+              </xpath> -->
+			  <xpath expr="//notebook/page[@name='other_information']" position="after">
+                      <page string="Magento Shipments" name="magento_shipments">
+					  <group>
+                                <group string="Shipping Information" name="sale_shipping" groups="sale.group_sale_order_dates">
+                                    <field name="expected_date" groups="sale.group_sale_order_dates"/>
+                                    <field name="commitment_date" groups="sale.group_sale_order_dates"/>
+                                </group>
+                                <group string="Sales Information" name="sales_person">
+                                    <field name="user_id"/>
+                                    <field name="team_id" options="{'no_create': True}"/>
+                                    <field name="client_order_ref"/>
+                                    <field name="require_signature"/>
+                                    <field name="require_payment"/>
+                                    <field name="reference" readonly="1" attrs="{'invisible': [('reference', '=', False)]}"/>
+                                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                                    <field name="analytic_account_id" context="{'default_partner_id':partner_invoice_id, 'default_name':name}" attrs="{'readonly': [('invoice_count','!=',0),('state','=','sale')]}" groups="analytic.group_analytic_accounting" force_save="1"/>
+                                </group>
+                                <group name="sale_pay" string="Invoicing">
+                                    <field name="date_order" attrs="{'invisible': [('state', 'in', ['sale', 'done', 'cancel'])]}"/>
+                                    <field name="fiscal_position_id" options="{'no_create': True}"/>
+                                    <field name="invoice_status" states="sale,done" invisible="1"/>
+                                </group>
+                                <group string="Reporting" name="technical" groups="base.group_no_one">
+                                    <field groups="base.group_no_one" name="origin"/>
+                                </group>
+                                <group name="utm_link" groups="base.group_no_one"/>
+                      </group>
+                      </page>
+              </xpath>
+
+          </field>
+       </record>
+
+		<record model="ir.actions.act_window" id="mg_saleorder_action">
+            <field name="name">Sale order</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_magento', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_smiling_face">
+                  Create your First Sale Order
+                </p>
+            </field>
+        </record>
+	</data>
+</odoo>

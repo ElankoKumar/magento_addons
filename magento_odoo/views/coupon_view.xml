@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+<!-- form view -->
+        <record model="ir.ui.view" id="Coupon_form">
+            <field name="name">Coupon Programs</field>
+            <field name="model">coupon.programs</field>
+            <field name="arch" type="xml">
+                <form string="Coupon Form">
+                    <sheet>
+                        <group>
+                          <group>
+                              <field name="periods" widget='radio' options="{'horizontal': true}"/>
+                              <field name="start_date"/>
+              							  <field name="end_date"/>
+                            </group>
+                            <group>
+                              <field name="is_magento"/>
+                							<field name="magento_id"/>
+                							<field name="coupon_code"/>	
+                            </group>				
+                        </group>
+                    </sheet>
+                </form>
+			
+            </field>
+        </record>
+		
+		
+<!-- tree view -->
+
+	    <record model="ir.ui.view" id="Coupon_tree">
+            <field name="name">Coupon Programs</field>
+            <field name="model">coupon.programs</field>
+            <field name="arch" type="xml">
+                <tree string="Coupon Tree">
+					<field name="periods"/>
+					<field name="start_date"/>
+					<field name="end_date"/>
+					<field name="is_magento"/>
+					<field name="magento_id"/>
+					<field name="coupon_code"/>
+                </tree>
+            </field>
+        </record>
+
+<!-- action -->
+
+		<record model="ir.actions.act_window" id="mg_coupon_action">
+           <field name="name">Coupon Programs</field>
+           <field name="res_model">coupon.programs</field>
+		   <field name="view_type">form</field>
+           <field name="view_mode">tree,form</field>
+           <field name="domain">[('is_magento', '=', True)]</field>
+           <field name="help" type="html">
+              <p class="oe_view_nocontent_smiling_face">
+                Create your First Coupon
+              </p>
+           </field>
+        </record>		
+</odoo>		

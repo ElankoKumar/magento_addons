@@ -1,0 +1,32 @@
+<odoo>
+	<data>
+		<menuitem id="main_menu_magento" name="Magento" sequence="1"/>
+		
+		<!-- create a submenus -->
+		<menuitem id="sub_menu_mg_dashboard" name="DashBoard" parent="main_menu_magento"  action="mg_overview_dashboard_action" sequence="0" />
+		
+		<menuitem id="sub_menu_customer" name="Customers" parent="main_menu_magento" action="magento_customer_action" sequence="1"/>
+		<menuitem id="submenu_Master_Data" name="Master Data" parent="main_menu_magento" sequence="2" />
+		<menuitem id="submenu_sales" name="Sales" parent="main_menu_magento" sequence="3" />
+		<menuitem id="submenu_Configurations" name="Configurations" parent="main_menu_magento" sequence="4" />
+		<menuitem id="submenu_Reports" name="Reports" parent="main_menu_magento" sequence="5" />
+
+		<menuitem id="submenu_Master_Data_products" name="Products" parent="submenu_Master_Data" action="mg_product_action" sequence="1" />
+		<menuitem id="submenu_Master_Data_product_categories" name="Product Categories" parent="submenu_Master_Data" action="mg_product_category_action" sequence="2" />
+		<menuitem id="submenu_Master_Data_product_variants" name="Product Variants" parent="submenu_Master_Data" action="mg_product_variant_action" sequence="3" />
+		
+        <menuitem id="submenu_orders" name="Magento Orders" parent="submenu_sales" action="mg_saleorder_action" sequence="1" />
+		<menuitem id="submenu_invoices" name="Magento Invoices" parent="submenu_sales" action="mg_invoice_action" sequence="2" />
+        <menuitem id="submenu_shipments" name="Magento Shipments" parent="submenu_sales" action="mg_shipments_action" sequence="3" />
+		
+        <menuitem id="submenu_taxes" name="Taxes" parent="submenu_Configurations" action="mg_tax_action" sequence="1" />
+		<menuitem id="submenu_currencies" name="Currency" parent="submenu_Configurations" action="mg_currency_action" sequence="2" />
+		<menuitem id="submenu_email_template" name="Email Templates" parent="submenu_Configurations" action="mg_email_template_action" sequence="3" />
+		
+		<menuitem id="submenu_coupon_code" name="Coupon Programs" parent="submenu_Configurations" action="mg_coupon_action" />
+		
+		
+		
+		
+	</data>
+</odoo>

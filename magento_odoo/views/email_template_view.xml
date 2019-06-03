@@ -1,0 +1,32 @@
+<odoo>
+	<data>
+        <record id="mg_email_template_inherit" model="ir.ui.view">
+          <field name="name">email_template</field>
+          <field name="model">mail.template</field>
+          <field name="inherit_id" ref="mail.email_template_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='model']" position="after">
+                      <field name="magento_id"/>
+                      <field name="is_magento" />
+              </xpath>
+              <!-- <xpath expr="//field[@name='email']" position="attributes">
+                  <attribute name="required">1</attribute>
+              </xpath> -->
+
+          </field>
+       </record>
+
+		<record model="ir.actions.act_window" id="mg_email_template_action">
+            <field name="name">Email Templates</field>
+            <field name="res_model">mail.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_magento', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_smiling_face">
+                  Create your First Email Template
+                </p>
+            </field>
+        </record>
+	</data>
+</odoo>

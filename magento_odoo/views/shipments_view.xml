@@ -1,0 +1,68 @@
+<odoo>
+	<data>
+	
+	<!-- form view -->
+	
+        <record id="mg_shipments" model="ir.ui.view">
+          <field name="name">Shipments</field>
+          <field name="model">shipment.shipment</field>
+          
+          <field name="arch" type="xml">
+                <form string="Shipment Form">
+                    <sheet>
+                        <group>
+                            <field name="is_magento"/>
+                            <field name="magento_id"/>
+							<field name="packing_slip"/>
+							<field name="order"/>
+							<field name="order_date"/>
+						</group>
+						
+						<group>
+							<field name="sold_to"/>
+						</group>
+							
+						<group>
+							<field name="ship_to"/>
+						</group>
+						<group>
+							<field name="payment_method"/>
+						</group>
+						<group>
+							<field name="shipping_method"/>	
+                        </group>
+                    </sheet>
+                </form>
+          </field>
+       </record>
+	   
+	   <!-- tree view -->
+	   
+        <record id="mg_shipments_tree" model="ir.ui.view">   
+	        <field name="name">Shipments</field>
+            <field name="model">shipment.shipment</field>
+            <field name="arch" type="xml">
+                <tree string="Shipment Tree">
+                    <field name="is_magento"/>
+                    <field name="magento_id"/>
+
+                </tree>
+            </field>
+       </record>
+	   
+      <!-- action -->
+	  
+		<record model="ir.actions.act_window" id="mg_shipments_action">
+            <field name="name">Shipments</field>
+            <field name="res_model">shipment.shipment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_magento', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_smiling_face">
+                  Create your First Shipment
+                </p>
+            </field>
+        </record>
+	</data>
+</odoo>

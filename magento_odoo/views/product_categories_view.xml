@@ -1,0 +1,36 @@
+<odoo>
+	<data>
+        <record id="mg_product_category_inherit" model="ir.ui.view">
+          <field name="name">Product categories</field>
+          <field name="model">product.category</field>
+          <field name="inherit_id" ref="product.product_category_form_view"/>
+          <field name="arch" type="xml">
+              <xpath expr="//group[@name='first']" position="after">
+			  
+				<group name="mg_opt">
+                      <field name="magento_id"/>
+                      <field name="is_magento" />
+				
+				</group>
+              </xpath>
+              <!-- <xpath expr="//field[@name='email']" position="attributes">
+                  <attribute name="required">1</attribute>
+              </xpath> -->
+
+          </field>
+       </record>
+
+		<record model="ir.actions.act_window" id="mg_product_category_action">
+            <field name="name">Product categories</field>
+            <field name="res_model">product.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('is_magento', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_smiling_face">
+                  Create your First Product Category
+                </p>
+            </field>
+        </record>
+	</data>
+</odoo>

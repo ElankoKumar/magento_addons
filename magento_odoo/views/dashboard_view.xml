@@ -1,0 +1,76 @@
+<odoo>
+	<data>
+        <record id="mg_overview_dashboard" model="ir.ui.view">
+          <field name="name">DashBoard</field>
+          <field name="model">magento.dashboard</field>
+          <field name="arch" type="xml">
+              <form create="false" edit="false" delete="false">
+                <sheet>
+                  <group>
+                      <group>
+                        <field name="rec_type"/>
+                      </group>
+                      <group>
+                        <field name="rec_count"/>
+                      </group>
+                  </group>
+                </sheet>
+              </form>
+          </field>
+       </record>
+
+       <record id="mg_overview_dashboard_tree" model="ir.ui.view">
+          <field name="name">DashBoard</field>
+          <field name="model">magento.dashboard</field>
+          <field name="arch" type="xml">
+              <tree create="false" edit="false" delete="false">
+                <field name="rec_type"/>
+                <field name="rec_count"/>
+              </tree>
+          </field>
+       </record>
+
+
+
+  <!-- Kanban View Starts Here-->
+  
+    <record model="ir.ui.view" id="kanban_magento_records">
+    <field name="name">Magento DashBoard</field>
+    <field name="model">magento.dashboard</field>
+    <field name="type">kanban</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_resource_vignette" style="background:#ecf0f1;border-radius: 23px;margin-top:35px;box-shadow: 0px 1px 18px 0px #bdc3c7;">
+                        <div class="oe_resource_details" style="">
+                               <span style="font-weight:bold;text-align:center;margin-top:20px;"><p style="font-size:21px;margin-top: 33px;"><field name="rec_type"/></p></span>
+                               <br />
+                               <p style="font-size:60px;font-weight:bolder;text-align:center;"><span class="text-center" style="color:#d35400;"><field name="rec_count"/></span></p>
+
+                               <div class="pull-left ml-3">
+                                <button class="btn" style="background:#e15f41;color:#fff;font-weight:bolder;" type="action" name="" icon="fa-sync-alt"> View</button>
+                              </div>
+                               <div class="pull-right mr-3">
+                                <button class="btn" style="background:#16a085;color:#fff;font-weight:bolder;" type="object" name="get_count_data" icon="fa-sync-alt"> Reload</button>
+                              </div>
+
+
+                               <!-- <button class="oe_highlight" string="Refresh"  type="object" name=""/> -->
+                        </div>
+                    </div>                      
+                </t>
+            </templates>
+        </kanban>
+    </field>
+</record>
+
+
+		<record model="ir.actions.act_window" id="mg_overview_dashboard_action">
+            <field name="name">Magento Dashboard</field>
+            <field name="res_model">magento.dashboard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban</field>
+        </record>
+	</data>
+</odoo>

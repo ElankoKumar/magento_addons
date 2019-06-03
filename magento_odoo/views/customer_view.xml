@@ -1,0 +1,107 @@
+<odoo>
+    <data>
+        <record id="customer_form_inherit" model="ir.ui.view">
+          <field name="name">Customers</field>
+          <field name="model">res.partner</field>
+          <field name="inherit_id" ref="base.view_partner_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//field[@name='vat']" position="after">
+                      <field name="magento_id"/>
+                      <field name="is_magento" />
+              </xpath>
+              <xpath expr="//field[@name='email']" position="attributes">
+                  <attribute name="required">1</attribute>
+              </xpath>
+
+          </field>
+       </record>
+
+       <record model="ir.actions.act_window" id="magento_customer_action">
+            <field name="name">Customers</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('is_magento', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_smiling_face">
+                  Create your First Customer
+                </p>
+            </field>
+        </record>
+
+        <record id="mg_company_form_inherit" model="ir.ui.view">
+          <field name="name">Credentials</field>
+          <field name="model">res.company</field>
+          <field name="inherit_id" ref="base.view_company_form"/>
+          <field name="arch" type="xml">
+              <xpath expr="//notebook" position="inside">
+                <page string="Magento">
+                  <group>
+                      <group string="Magento Credentials" class="">
+                          <field name="username" class="mt-3"/>
+                          <field name="password" />
+                          <field name="magento_url" />
+                          <field name="token" />
+                          <field name="logfile_path" invisible="1" />
+                          <button string="Authenticate" class="oe_highlight mt-3" type="object" name="authenticate_magento" />
+                      </group>
+					  
+					  <group string="Triggers" class="">
+					    <group>
+					      <field name="trigger" string="Triggers" widget='radio' options="{'horizontal': true}"/>
+						</group>
+					  </group>
+                      <group string="Magento Options">
+                        <group class="mt-3">
+                          <field name="import_customer" />
+                          <field name="import_products" />
+                          <field name="import_orders" />
+                          <field name="import_invoices" invisible="1"/>
+                          <field name="import_categories"/>
+                        </group>
+                        <group class="mt-3">
+                          <field name="export_customers" />
+                          <field name="export_products" />
+                          <field name="export_orders" />
+                          <field name="export_invoices" invisible="1"/>
+                          <field name="export_categories"/>
+                        </group>
+                      </group>
+                      
+                      <group string="Manual Sync" class="">
+					      
+                          <button string="Import Customers" class="oe_highlight mt-2" type="object" name="import_customers_magento" attrs='{"invisible":[("import_customer","=",False)]}'/>
+
+                          <button string="Export Customers" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="export_customer_magento" attrs='{"invisible":[("export_customers","=",False)]}' />
+                          <button string="Import  Products" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_products_magento" attrs='{"invisible":[("import_products","=",False)]}'/>
+
+                          <button string="Export Products" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="export_products_magento" attrs='{"invisible":[("export_products","=",False)]}' />
+
+                          <button string="Import  Orders" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_sale_orders_magento" attrs='{"invisible":[("import_orders","=",False)]}'/>
+
+                          <button string="Export Orders" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="mg_export_orders" attrs='{"invisible":[("export_orders","=",False)]}' />
+
+                          <button string="Import Invoices" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_invoices_magento" attrs='{"invisible":[("import_invoices","=",False)]}'/>
+
+                          <button string="Export Invoices" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="" attrs='{"invisible":[("export_invoices","=",False)]}' />
+
+
+                          <button string="Import  Categories" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_mg_categories" attrs='{"invisible":[("import_categories","=",False)]}'/>
+
+                          <button string="Export Categories" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="" attrs='{"invisible":[("export_categories","=",False)]}' />
+                      </group>
+                      <group string="Auto Sync" class="mt-5">
+                        
+                          <field name="auto_sync" class="text-center" widget='radio' options="{'horizontal': true}" />
+                        
+                      </group>
+                </group>
+                </page>
+              </xpath>
+
+          </field>
+       </record>
+
+
+    </data>
+</odoo>

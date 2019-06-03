@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="sample_rec_products" model="magento.dashboard">
+            <field name="rec_type">products</field>
+            <field name="rec_count">0</field>
+        </record>
+
+        <record id="sample_rec_customers" model="magento.dashboard">
+            <field name="rec_type">customer</field>
+            <field name="rec_count">0</field>
+        </record>
+
+        <record id="sample_rec_sale_orders" model="magento.dashboard">
+            <field name="rec_type">sale_order</field>
+            <field name="rec_count">0</field>
+        </record>
+
+        <record id="sample_rec_invoices" model="magento.dashboard">
+            <field name="rec_type">invoices</field>
+            <field name="rec_count">0</field>
+        </record>
+
+        <record id="sample_rec_shipments" model="magento.dashboard">
+            <field name="rec_type">shipments</field>
+            <field name="rec_count">0</field>
+        </record>
+
+        <record id="sample_rec_categories" model="magento.dashboard">
+            <field name="rec_type">categories</field>
+            <field name="rec_count">0</field>
+        </record>
+    </data>
+</odoo>
