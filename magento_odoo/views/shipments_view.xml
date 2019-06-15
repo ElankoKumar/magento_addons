@@ -8,41 +8,47 @@
           <field name="model">shipment.shipment</field>
           
           <field name="arch" type="xml">
-                <form string="Shipment Form">
+                <form string="Shipment Form" create="false" edit="false" delete="false">
                     <sheet>
+                      <group>
                         <group>
                             <field name="is_magento"/>
-                            <field name="magento_id"/>
-							<field name="packing_slip"/>
-							<field name="order"/>
-							<field name="order_date"/>
-						</group>
-						
-						<group>
-							<field name="sold_to"/>
-						</group>
-							
-						<group>
-							<field name="ship_to"/>
-						</group>
-						<group>
-							<field name="payment_method"/>
-						</group>
-						<group>
-							<field name="shipping_method"/>	
-                        </group>
+                              <field name="magento_id"/>
+                							<field name="packing_slip"/>
+                							<field name="order"/>
+                              <!-- <field name="sold_to"/> -->
+                						</group>
+                						
+                						
+                						<group>
+                              <!-- <field name="order_date"/>
+                							<field name="payment_method"/>
+                              <field name="shipping_method"/> 
+                              <field name="ship_to"/> --> 
+                						</group>
+                						
+                							
+                              <field name="shipment_one2many">
+                                <tree editable="bottom">
+                                  <field name="products"/>
+                                  <field name="quantity"/>
+                                  <field name="sku" required="1"/>
+                                </tree>
+                              </field>
+                        
+                      </group>
                     </sheet>
                 </form>
           </field>
        </record>
 	   
 	   <!-- tree view -->
-	   
+	  
         <record id="mg_shipments_tree" model="ir.ui.view">   
 	        <field name="name">Shipments</field>
             <field name="model">shipment.shipment</field>
             <field name="arch" type="xml">
-                <tree string="Shipment Tree">
+                <tree string="Shipment Tree" create="false" edit="false" >
                     <field name="is_magento"/>
                     <field name="magento_id"/>
 

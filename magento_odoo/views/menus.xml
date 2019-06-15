@@ -24,9 +24,6 @@
 		<menuitem id="submenu_email_template" name="Email Templates" parent="submenu_Configurations" action="mg_email_template_action" sequence="3" />
 		
 		<menuitem id="submenu_coupon_code" name="Coupon Programs" parent="submenu_Configurations" action="mg_coupon_action" />
-		
-		
-		
-		
+
 	</data>
 </odoo>

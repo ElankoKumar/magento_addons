@@ -9,14 +9,17 @@
                     <sheet>
                         <group>
                           <group>
-                              <field name="periods" widget='radio' options="{'horizontal': true}"/>
-                              <field name="start_date"/>
-              							  <field name="end_date"/>
+                              <field name="periods" widget='radio' options="{'horizontal': true}" invisible="1"/>
+                              <field name="coupon_code"/>
+              							  <field name="expiration_date"/>
+                              <field name="times_used"/>
+                              <field name="usage_per_customer"/>  
                             </group>
                             <group>
                               <field name="is_magento"/>
                 							<field name="magento_id"/>
-                							<field name="coupon_code"/>	
+                              <field name="rule_id"/>	
+                              <field name="is_primary"/>
                             </group>				
                         </group>
                     </sheet>
@@ -32,13 +35,12 @@
             <field name="name">Coupon Programs</field>
             <field name="model">coupon.programs</field>
             <field name="arch" type="xml">
-                <tree string="Coupon Tree">
-					<field name="periods"/>
-					<field name="start_date"/>
-					<field name="end_date"/>
-					<field name="is_magento"/>
-					<field name="magento_id"/>
-					<field name="coupon_code"/>
+              <tree string="Coupon Tree">
+        					<field name="expiration_date"/>
+        				
+        					<field name="is_magento"/>
+        					<field name="magento_id"/>
+        					<field name="coupon_code"/>
                 </tree>
             </field>
         </record>

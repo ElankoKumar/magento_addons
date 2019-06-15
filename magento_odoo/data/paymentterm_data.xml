@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="check_moneyorder" model="account.payment.term">
+            <field name="name">Check/Money Order</field>
+        </record>
+
+        <record id="Bank_Transfer_Payment" model="account.payment.term">
+            <field name="name">Bank Transfer Payment</field>
+        </record>
+
+        <record id="cash_on_delivery" model="account.payment.term">
+            <field name="name">Cash on Delivery</field>
+        </record>
+
+        <record id="purchase_order" model="account.payment.term">
+            <field name="name">Purchase Order</field>
+        </record>
+
+        <record id="zero_subtotal_checkout" model="account.payment.term">
+            <field name="name">Zero Subtotal Checkout</field>
+        </record>
+
+    </data>
+</odoo>

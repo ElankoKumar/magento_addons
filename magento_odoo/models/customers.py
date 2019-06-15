@@ -1,7 +1,12 @@
-from odoo import models,fields,api
+from odoo import models,fields,api,modules
 import requests
 import json
 import logging
+from datetime import datetime
+from PIL import Image
+from io import BytesIO
+import base64
+
 
 _logger = logging.getLogger(__name__)
 
@@ -64,11 +69,13 @@ class ResCompany(models.Model):
 	import_products = fields.Boolean("Import Products")
 	export_products = fields.Boolean("Export Products")
 	import_orders = fields.Boolean("Import Orders")
-	export_orders = fields.Boolean("Export Orders")
+	export_orders = fields.Boolean("Export Orders",readonly=True,default=False)
 	import_invoices = fields.Boolean("Import Invoices")
 	export_invoices = fields.Boolean("Export Invoices")
 	import_categories = fields.Boolean("Import Categories")
 	export_categories = fields.Boolean("Export Categories")
+	import_shipments = fields.Boolean("Import Shipments")
+	import_coupons = fields.Boolean("Import Coupons")
 	auto_sync = fields.Selection([('yes','Yes'),('no','No')],"Auto Sync ?")
 	trigger = fields.Selection([('create','Create'),('edit','Edit'),('create_or_edit','Create or Edit'),('none','None')],string = "Triggers")
 
@@ -153,7 +160,26 @@ class ResCompany(models.Model):
 				decoded = json.loads(response.text)
 				items = decoded['items']
 				for item in items:
-					print(item)
+					media = False
+					media_entries = item.get('media_gallery_entries')
+					if media_entries != []:
+						media = media_entries[0]['file']
+
+					if media:
+						fn_url = '%spub/media/catalog/product%s' %(url,media)
+						response = requests.get(fn_url)
+						mime_type = response.headers['content-type']
+						if mime_type == 'image/png':
+							ext = 'png'
+						if mime_type == 'image/jpeg':
+							ext = 'jpg'
+						img = Image.open(BytesIO(response.content))
+						print(img)
+						# print(img)
+						module_path = modules.get_module_path('magento_odoo')
+						img.save(module_path+'/static/src/test.'+ext)
+						base_data = base64.encodestring(open(module_path+'/static/src/test.'+ext,"rb").read())
+						print(base_data)
 					if item.get('id'):
 						product = self.env['product.template'].search([('magento_id','=',item.get('id'))],limit=1)
 						if not product:
@@ -162,11 +188,10 @@ class ResCompany(models.Model):
 							product_vals['list_price'] = item.get('price')
 							product_vals['magento_id'] = item.get('id')
 							product_vals['is_magento'] = True
+							product_vals['image_medium'] = base_data
 							create_product = self.env['product.template'].create(product_vals)
 							_logger.error("Product Created"+str(create_product.id))
-						else:
-							print("****************************************")
-							print("Product Exists")
+						
 
 
 	@api.multi
@@ -192,9 +217,28 @@ class ResCompany(models.Model):
 					vals['magento_id'] = decoded.get('id')
 					sku = decoded.get('sku')
 				if sku:
-					put_url = "%sindex.php/rest/V1/products/%s" %(url,sku)
+					image_type = 'image/png'
+					# product_types = self.env['ir.attachment'].sudo().search([])
+					# for product_type in product_types:
+					# 	print(product_type.res_id)
+					# 	if product_type.res_model == 'product.template' and product_type.res_id == product.id:
+					# 		print(product_type.mimetype)
+					# 		break
+					# if get_product_type:
+					# 	print("Comes In IF")
+					# 	image_type = get_product_type[0]['mimetype']
+					# ext = False
+					# if image_type == 'image/png':
+					# 	ext = 'png'
+					# if image_type == 'image/jpeg':
+					# 	ext = 'jpg'
+					
+					
+					image = product.image_medium.decode("utf-8") 
+					put_url = "%sindex.php/rest/V1/products/%s/media" %(url,sku)
+					image_data = '{"entry": {"media_type": "image","label": "Image","position": 1,"disabled": false,"types": ["image","small_image","thumbnail"],"content": {"base64EncodedData": "'+image+'","type": "'+image_type+'","name": "choose_any_name.png"}}}'
 					headers = {"Authorization":"Bearer "+token,"Content-Type":"application/json"}
-					put_response = requests.request("PUT", put_url, data=data, headers=headers)
+					put_response = requests.request("POST", put_url, data=image_data, headers=headers)
 					_logger.error(put_response.text)
 				product.write(vals)
 
@@ -404,3 +448,104 @@ class ResCompany(models.Model):
 									product_vals['account_id'] = 3
 									create_lines = self.env['account.invoice.line'].sudo().create(product_vals)
 									_logger.error("Invoice Lines Created : "+str(create_lines.id))
+
+
+	@api.multi
+	def import_shipments_mg(self):
+		users = self.env['res.users'].search([('id','=',self.env.uid)],limit=1)
+		for user in users:
+			token = user.company_id.token
+			url = user.company_id.magento_url
+			# print("Token",token)
+			# print("URL",url)
+			final_url = "%sindex.php/rest/V1/shipments?searchCriteria=null" %(url)
+			headers = {"Authorization":"Bearer "+token,"Content-Type":"application/json"}
+			response = requests.get(final_url, headers=headers)
+			# _logger.error(response.text)
+			if response.status_code == 200:
+				decoded_data = json.loads(response.text)
+				items = decoded_data.get('items')
+				for item in items:
+					shipment_id = item['entity_id']
+					shipments = self.env['shipment.shipment'].search([('magento_id','=',shipment_id)],limit=1)
+					if not shipments:
+						parent_vals = {}
+						parent_vals['is_magento'] = True
+						parent_vals['magento_id'] = shipment_id
+						parent_vals['packing_slip'] = item.get('increment_id')
+						orders = self.env['sale.order'].search([('magento_id','=',item.get('order_id'))],limit=1)
+						print(item.get('order_id'))
+						if orders:
+							parent_vals['order'] = orders[0]['id']
+						create_shipment = self.env['shipment.shipment'].create(parent_vals)
+						if create_shipment:
+							_logger.error("Shipment Created : "+str(create_shipment.id))
+							lines = item.get('items')
+							for line in lines:
+								child_vals = {}
+								child_vals['shipment_many2one'] = create_shipment.id
+								child_vals['quantity'] = line.get('qty')
+								child_vals['sku'] = line.get('sku')
+								child_vals['products'] = line.get('name')
+								create_line = self.env['ship.ship'].create(child_vals)
+								_logger.error("Shipment Line is Created : "+str(create_line.id))
+
+
+
+	@api.multi
+	def import_coupons_mg(self):
+		users = self.env['res.users'].search([('id','=',self.env.uid)],limit=1)
+		for user in users:
+			token = user.company_id.token
+			url = user.company_id.magento_url
+			# print("Token",token)
+			# print("URL",url)
+			final_url = "%sindex.php/rest/V1/coupons/search?searchCriteria=null" %(url)
+			headers = {"Authorization":"Bearer "+token,"Content-Type":"application/json"}
+			response = requests.get(final_url, headers=headers)
+			# # _logger.error(response.text)
+			if response.status_code == 200:
+				decoded_data = json.loads(response.text)
+				items = decoded_data.get('items')
+				for item in items:
+					coupon_id = item.get('coupon_id')
+					coupon = self.env['coupon.programs'].search([('magento_id','=',coupon_id)])
+					if not coupon:
+						_logger.error("Coupon doesn't exists")
+						vals = {}
+						vals['is_magento'] = True
+						vals['magento_id'] = coupon_id
+						vals['is_primary'] = item.get('is_primary')
+						vals['usage_per_customer'] = item.get('usage_per_customer')
+						vals['rule_id'] = item.get('rule_id')
+						vals['coupon_code'] = item.get('code')
+						if item.get('expiration_date'):
+							date_time_obj = datetime.strptime(item.get('expiration_date'), '%Y-%m-%d %H:%M:%S')
+							vals['expiration_date'] = date_time_obj.date()
+						create_coupon = self.env['coupon.programs'].create(vals)
+						_logger.error("Coupon Created : "+str(create_coupon.id))
+					else:
+						_logger.error("Coupon exists Already")
+
+
+	@api.multi
+	def export_invoices_mg(self):
+		users = self.env['res.users'].search([('id','=',self.env.uid)],limit=1)
+		for user in users:
+			token = user.company_id.token
+			url = user.company_id.magento_url
+			sale_orders = self.env['sale.order'].search(['&',('magento_id','!=',False),('is_magento','=',True)])
+			for order in sale_orders:
+				origin = order.name
+				invoices = self.env['account.invoice'].search(['&',('origin','=',origin),('is_magento','=',False),('state','=','paid')],limit=1)
+				for invoice in invoices:
+					final_url = "%sindex.php/rest/V1/order/%s/invoice" %(url,str(order.magento_id))
+					headers = {"Authorization":"Bearer "+token,"Content-Type":"application/json"}
+					data = '{"capture": true,"notify": true}'
+					response = requests.request("POST", final_url, data=data, headers=headers)
+					_logger.error(response.text)
+					write_vals = {}
+					write_vals['magento_id'] = response.text
+					write_vals['is_magento'] = True
+					update_invoice = self.env['account.invoice'].write(write_vals)
+					_logger.error("Invoice Created : "+str(response.text))

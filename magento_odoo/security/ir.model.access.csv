@@ -3,3 +3,4 @@ admin_access,Admin,model_res_partner,base.group_user,1,1,1,1
 shipment_shipment,Admin,model_shipment_shipment,base.group_user,1,1,1,1
 coupon_coupon,Admin,model_coupon_programs,base.group_user,1,1,1,1
 admin_dashboard,Admin,model_magento_dashboard,base.group_user,1,1,0,0
+admin_shipment,Admin,model_ship_ship,base.group_user,1,1,1,1

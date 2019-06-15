@@ -23,8 +23,7 @@
     ],
     "data": [
      'security/ir.model.access.csv',
-	   'data/generate_token.xml',
-     'views/template.xml',
+     # 'views/template.xml',
      'views/customer_view.xml',
      'views/products_template_view.xml',
 	   'views/product_categories_view.xml',
@@ -38,6 +37,8 @@
 	   'views/coupon_view.xml',
      'views/dashboard_view.xml',
      'data/dashboard_data.xml',
+	  'data/generate_token.xml',
+	  'data/paymentterm_data.xml',
      'views/menus.xml'
 
     ],

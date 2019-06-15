@@ -20,7 +20,7 @@ class MagentoDashboard(models.Model):
 
 	@api.multi
 	def get_count_data(self):
-		print("Counting the Records Count")
+		# print("Counting the Records Count")
 		if self.rec_type == 'customer':
 			count = self.env['res.partner'].sudo().search_count(['&',('is_magento','=',True),('magento_id','!=',False)])
 			self.write({'rec_count':count})
@@ -43,3 +43,5 @@ class MagentoDashboard(models.Model):
 		if self.rec_type == 'categories':
 			count = self.env['product.category'].sudo().search_count(['&',('is_magento','=',True),('magento_id','!=',False)])
 			self.write({'rec_count':count})
+
+
