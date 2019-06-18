@@ -202,6 +202,7 @@ class ResCompany(models.Model):
 			#print(data)
 			users = self.env['res.users'].search([('id','=',self.env.uid)],limit=1)
 			for user in users:
+				vals = {}
 				url = user.company_id.magento_url
 				token = user.company_id.token
 				final_url = "%sindex.php/rest/V1/products" %(url)
