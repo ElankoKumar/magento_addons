@@ -75,23 +75,23 @@
 					      
                           <button string="Import Customers" class="oe_highlight mt-2" type="object" name="import_customers_magento" attrs='{"invisible":[("import_customer","=",False)]}'/>
 
-                          <button string="Export Customers" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="export_customer_magento" attrs='{"invisible":[("export_customers","=",False)]}' />
-                          <button string="Import  Products" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_products_magento" attrs='{"invisible":[("import_products","=",False)]}'/>
+                          <button string="Export Customers"  class="oe_highlight ml-5 mt-2" type="object" name="export_customer_magento" attrs='{"invisible":[("export_customers","=",False)]}' />
+                          <button string="Import  Products"  class="oe_highlight mt-2" type="object" name="import_products_magento" attrs='{"invisible":[("import_products","=",False)]}'/>
 
-                          <button string="Export Products" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="export_products_magento" attrs='{"invisible":[("export_products","=",False)]}' />
+                          <button string="Export Products"  class="oe_highlight ml-5 mt-2" type="object" name="export_products_magento" attrs='{"invisible":[("export_products","=",False)]}' />
 
-                          <button string="Import  Orders" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_sale_orders_magento" attrs='{"invisible":[("import_orders","=",False)]}'/>    
+                          <button string="Import  Orders"  class="oe_highlight mt-2" type="object" name="import_sale_orders_magento" attrs='{"invisible":[("import_orders","=",False)]}'/>    
 
-                          <button string="Export Invoices" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="export_invoices_mg" attrs='{"invisible":[("export_invoices","=",False)]}' />
+                          <button string="Export Invoices"  class="oe_highlight ml-5 mt-2" type="object" name="export_invoices_mg" attrs='{"invisible":[("export_invoices","=",False)]}' />
 
 
-                          <button string="Import  Categories" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_mg_categories" attrs='{"invisible":[("import_categories","=",False)]}'/>
+                          <button string="Import  Categories"  class="oe_highlight mt-2" type="object" name="import_mg_categories" attrs='{"invisible":[("import_categories","=",False)]}'/>
 
-                          <button string="Export Categories" style="width:122px;" class="oe_highlight ml-5 mt-2" type="object" name="" attrs='{"invisible":[("export_categories","=",False)]}' />
+                          <button string="Export Categories"  class="oe_highlight ml-5 mt-2" type="object" name="" attrs='{"invisible":[("export_categories","=",False)]}' />
 
-                          <button string="Import Shipments" style="width:122px;" class="oe_highlight mt-2" type="object" name="import_shipments_mg" attrs='{"invisible":[("import_shipments","=",False)]}' />
+                          <button string="Import Shipments"  class="oe_highlight mt-2" type="object" name="import_shipments_mg" attrs='{"invisible":[("import_shipments","=",False)]}' />
 
-                          <button string="Import Coupons" style="width:122px;" class="oe_highlight mt-2 ml-5" type="object" name="import_coupons_mg" attrs='{"invisible":[("import_coupons","=",False)]}' />
+                          <button string="Import Coupons"  class="oe_highlight mt-2 ml-5" type="object" name="import_coupons_mg" attrs='{"invisible":[("import_coupons","=",False)]}' />
 
 
                       </group>
