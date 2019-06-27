@@ -46,11 +46,11 @@
                           <button string="Authenticate" class="oe_highlight mt-3" type="object" name="authenticate_magento" />
                       </group>
 					  
-					  <group string="Triggers" class="">
-					    <group>
-					      <field name="trigger" string="Triggers" widget='radio' options="{'horizontal': true}"/>
-						</group>
-					  </group>
+		     <group string="Triggers" class="">
+				 <group>
+					 <field name="trigger" string="Triggers" widget='radio' options="{'horizontal': true}"/>
+				</group>
+		     </group>
                       <group string="Magento Options">
                         <group class="mt-3">
                           <field name="import_customer" />
